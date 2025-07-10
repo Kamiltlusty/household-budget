@@ -58,11 +58,45 @@ body {
     .shopping-form {
         display: flex;
         align-items: flex-start;
-        justify-content: space-evenly;
+        flex-direction: column;
+        justify-content: flex-start;
         background-color: #fbfbf8;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         width: 20rem;
         height: 30rem;
         border-radius: 0.25rem;
+    }
+
+    .shopping-date {
+        align-self: center;
+    }
+
+    .buyer {
+        margin-left: 10px;
+    }
+
+    .buyer-text-field {
+        width: 130px;
+        font-size: 1.3rem;
+        border-width: 0;
+        color: #a62c2b;
+        background-color: #fbfbf8;
+    }
+
+    .shops {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 0.5rem;
+        padding: 0 1rem 0 0;
+        justify-items: center;
+    }
+
+    .shops > input {
+        width: 1rem;
+        height: 1rem;
+        margin: 0 0 0 5px;
+        background-color: white;
+        border-style: solid;
+        border-color: #7e7fa6;
     }
 }
