@@ -15,6 +15,10 @@ header.innerHTML = `
     `
 document.body.appendChild(header);
 
+/**
+ * function serves months in pl
+ * @returns {string}
+ */
 Date.prototype.myMonth = function () {
     const months = [
         "Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec",
@@ -41,6 +45,10 @@ section.innerHTML = `
     <h2 class="shopping-date">${dateTime}</h2>
     <h2 class="buyer">Kupujący: <input class="buyer-text-field" type="text" placeholder="Imię"></h2>    
     <section class="shops"></section>    
+    <h2 class="shopping-list-header">Lista zakupów:</h2>
+    <section class="products-list" >
+    <ul class="list"><li class="list-element"><input class="product-name" type="text" placeholder="wpisz produkt"></li></ul>
+    </section>    
     </div>
     `
 document.body.appendChild(section);
@@ -48,6 +56,9 @@ document.body.appendChild(section);
 const shopsSection = document.querySelector(".shops");
 printShopsWithCheckboxes();
 
+/**
+ * function generates checkboxes and spans to list shops
+ */
 function printShopsWithCheckboxes() {
     for (i = 0; i < shops.length; i++) {
         const cb = document.createElement("input");
@@ -61,7 +72,10 @@ function printShopsWithCheckboxes() {
     }
 }
 
-const checkboxes = document.querySelectorAll(".checkbox")
+const checkboxes = document.querySelectorAll(".checkbox");
+/**
+ * function ensures that only one checkbox is checked at the time
+ */
 checkboxes.forEach(checkbox => {
     checkbox.addEventListener("click", function (event) {
         let el = event.target.value;
@@ -72,3 +86,40 @@ checkboxes.forEach(checkbox => {
         })
     });
 })
+
+const ul = document.querySelector(".list");
+ul.addEventListener("input", addNewProductInputIfNeeded);
+ul.addEventListener("input", removeEmptyInputs);
+
+function addNewProductInputIfNeeded() {
+    const productsList = document.querySelector(".products-list")
+    const productNameInputs = document.querySelectorAll(".product-name");
+    const lastInput = productNameInputs[productNameInputs.length - 1];
+    const maxHeightOfProductsList =160
+
+    if (lastInput && lastInput !== "" && productsList.getBoundingClientRect().height < maxHeightOfProductsList) {
+        let productName = document.createElement("input");
+        productName.className = "product-name";
+        let listItem = document.createElement("li");
+        listItem.className = "list-element";
+
+        listItem.appendChild(productName);
+        ul.appendChild(listItem);
+    }
+
+}
+
+function removeEmptyInputs() {
+    const inputs = document.querySelectorAll(".product-name");
+    const li = document.querySelectorAll(".list-element");
+    inputs.forEach((product, index) => {
+        if (product.value === "" && index !== inputs.length - 1) {
+            li[index].remove();
+        }
+    });
+}
+
+
+
+
+

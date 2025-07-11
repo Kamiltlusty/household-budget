@@ -72,7 +72,7 @@ body {
     }
 
     .buyer {
-        margin-left: 10px;
+        margin-left: 0.6rem;
     }
 
     .buyer-text-field {
@@ -99,4 +99,35 @@ body {
         border-style: solid;
         border-color: #7e7fa6;
     }
+
+    .shopping-list-header {
+        margin-left: 0.6rem;
+        margin-bottom: 0;
+    }
+
+    .products-list {
+        width: 100%;
+        max-height: 10rem;
+        overflow-y: auto;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .list {
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+
+    .product-name {
+        width: 90%;
+        border-width: 0;
+        background-color: #fbfbf8;
+    }
+
+    .product-name:focus {
+        outline: none;
+    }
+
+
 }
