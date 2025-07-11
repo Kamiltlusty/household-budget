@@ -28,7 +28,7 @@ Date.prototype.myMonth = function () {
 };
 
 const shops = [
-    "Lidl", "Biedronka", "Żabka", "Auchan", "Carrefour"
+    "Lidl", "Biedronka", "Żabka", "Auchan", "Carrefour", "Putka", "Dino"
 ];
 
 function shop(snum) {
@@ -48,7 +48,11 @@ section.innerHTML = `
     <h2 class="shopping-list-header">Lista zakupów:</h2>
     <section class="products-list" >
     <ul class="list"><li class="list-element"><input class="product-name" type="text" placeholder="wpisz produkt"></li></ul>
-    </section>    
+    </section>
+    <section class="receipt-section">
+    <input type="file" class="file-chooser">
+    </section>   
+    <h2 class="sum-header">Suma: <input type="number" class="sum" placeholder="koszt"></h2>
     </div>
     `
 document.body.appendChild(section);
@@ -100,6 +104,7 @@ function addNewProductInputIfNeeded() {
     if (lastInput && lastInput !== "" && productsList.getBoundingClientRect().height < maxHeightOfProductsList) {
         let productName = document.createElement("input");
         productName.className = "product-name";
+        productName.placeholder = "wpisz produkt";
         let listItem = document.createElement("li");
         listItem.className = "list-element";
 
@@ -119,7 +124,52 @@ function removeEmptyInputs() {
     });
 }
 
+const fileInput = document.querySelector("input[type=file]");
+fileInput.addEventListener("change", createPopupWithReceipt);
 
+function createPopupWithReceipt() {
+    const receiptSection = document.querySelector(".receipt-section");
+    const popupForImage= document.createElement("div");
+    popupForImage.className = "popup-section";
+
+    const closeButtonContainer = document.createElement("div");
+    closeButtonContainer.className = "class-button-container";
+
+    const closeButton = document.createElement("button");
+    closeButton.className = "popup-close-btn";
+
+    const closeButtonImage= document.createElement("input");
+    closeButtonImage.className = "close-button-image";
+    closeButtonImage.type = "image";
+    closeButtonImage.alt = "close";
+    closeButtonImage.src = "src/assets/closeRed24.png";
+    closeButton.appendChild(closeButtonImage);
+
+
+    const file = fileInput.files[0];
+    const reader = new FileReader();
+
+    const receiptImage = document.createElement("img");
+    receiptImage.className = "receipt-image";
+
+    reader.addEventListener(
+        "load",
+        () => {
+            // convert image file to base64 string
+            receiptImage.src = reader.result;
+        },
+        false,
+    );
+
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+
+    closeButtonContainer.appendChild(closeButton);
+    popupForImage.appendChild(closeButtonContainer);
+    popupForImage.appendChild(receiptImage);
+    receiptSection.appendChild(popupForImage);
+}
 
 
 
