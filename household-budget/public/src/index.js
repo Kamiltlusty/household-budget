@@ -25,7 +25,7 @@ const shoppingFormComponent = createShoppingFormComponent(shops);
 
 const openBtn = header.querySelector(".open-btn");
 openBtn.addEventListener("click", () => {
-   document.body.appendChild(shoppingFormComponent);
+    document.body.appendChild(shoppingFormComponent);
 });
 
 const closeBtn = header.querySelector(".close-btn");
@@ -38,16 +38,16 @@ saveBtn.addEventListener('click', event => {
     const today = new Date();
 
     const form = {
-        date : `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`,
-        buyer_name : shoppingFormComponent.querySelector(".buyer-text-field")?.value ?? "",
-        total_sum : Number(shoppingFormComponent.querySelector(".sum")?.value ?? 0)
+        date: `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`,
+        buyer_name: shoppingFormComponent.querySelector(".buyer-text-field")?.value ?? "",
+        total_sum: Number(shoppingFormComponent.querySelector(".sum")?.value ?? 0)
     }
 
     const cb = shoppingFormComponent.querySelectorAll(".shop-checkbox");
     const span = shoppingFormComponent.querySelectorAll(".shop-span");
     for (let i = 0; i < cb.length; i++) {
         if (cb[i].checked) {
-            form.store = span[i]?.innerText ?? "store";
+            form.store = { name: span[i]?.innerText ?? "store" };
             break;
         }
     }
@@ -61,21 +61,22 @@ saveBtn.addEventListener('click', event => {
     const file = receiptImg.files[0];
 
     const fd = new FormData();
-    fd.append("form", JSON.stringify(form));
+    const jsonBlob = new Blob([JSON.stringify(form)], {type: "application/json"})
+
+    fd.append("form", jsonBlob);
     fd.append("receipt-img", file);
 
     saveFormData(fd);
-
 })
 
 
-async function saveFormData(fd){
+async function saveFormData(fd) {
     const url = "http://localhost:8080/form";
     try {
-    const response = await fetch(url, {
-       method: "POST",
-        body: fd
-    });
+        const response = await fetch(url, {
+            method: "POST",
+            body: fd
+        });
 
     } catch (error) {
         console.error(error.message);
