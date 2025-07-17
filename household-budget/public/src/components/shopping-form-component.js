@@ -12,13 +12,13 @@ export function createShoppingFormComponent(shops) {
     }
 
     const currentDate = new Date();
-    const dateTime = currentDate.getDate() + " " + getPolishMonth(currentDate) + " " + currentDate.getFullYear();
+    const sDate = currentDate.getDate() + " " + getPolishMonth(currentDate) + " " + currentDate.getFullYear();
 
     const shoppingFormComponent = document.createElement("section")
     shoppingFormComponent.className = "middle-bar"
     shoppingFormComponent.innerHTML = `
     <div class="shopping-form">
-    <h2 class="shopping-date">${dateTime}</h2>
+    <h2 class="shopping-date">${sDate}</h2>
     <h2 class="buyer">Kupujący: <input class="buyer-text-field" type="text" placeholder="Imię"></h2>    
     <section class="shops"></section>    
     <h2 class="shopping-list-header">Lista zakupów:</h2>
@@ -41,17 +41,18 @@ export function createShoppingFormComponent(shops) {
     function printShopsWithCheckboxes() {
         for (let i = 0; i < shops.length; i++) {
             const cb = document.createElement("input");
-            cb.className = "checkbox"
+            cb.className = "shop-checkbox"
             cb.value = i;
             cb.type = "checkbox";
             const text = document.createElement("span");
+            text.className = "shop-span"
             text.innerText = shops[i];
             shopsSection.appendChild(cb);
             shopsSection.appendChild(text);
         }
     }
 
-    const checkboxes = shoppingFormComponent.querySelectorAll(".checkbox");
+    const checkboxes = shoppingFormComponent.querySelectorAll(".shop-checkbox");
     /**
      * function ensures that only one checkbox is checked at the time
      */
