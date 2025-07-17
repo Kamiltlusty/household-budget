@@ -39,8 +39,8 @@ saveBtn.addEventListener('click', event => {
 
     const form = {
         date: `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, "0")}-${String(today.getDate()).padStart(2, "0")}`,
-        buyer_name: shoppingFormComponent.querySelector(".buyer-text-field")?.value ?? "",
-        total_sum: Number(shoppingFormComponent.querySelector(".sum")?.value ?? 0)
+        buyerName: shoppingFormComponent.querySelector(".buyer-text-field")?.value ?? "",
+        totalSum: Number(shoppingFormComponent.querySelector(".sum")?.value ?? 0)
     }
 
     const cb = shoppingFormComponent.querySelectorAll(".shop-checkbox");
