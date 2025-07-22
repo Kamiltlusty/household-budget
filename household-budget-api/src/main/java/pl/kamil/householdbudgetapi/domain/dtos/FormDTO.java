@@ -1,2 +1,18 @@
-package pl.kamil.householdbudgetapi.domain.dtos;public class FormDTO {
+package pl.kamil.householdbudgetapi.domain.dtos;
+
+import lombok.Data;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
+
+@Data
+public class FormDTO {
+    private LocalDate date;
+    private String buyerName;
+    private StoreDTO store;
+    private BigDecimal totalSum;
+    private String receiptUrl;
+    private Set<ProductDTO> products = new HashSet<>();
 }

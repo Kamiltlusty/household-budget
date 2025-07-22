@@ -15,6 +15,8 @@
     flex-direction: column;
     justify-content: flex-start;
     background-color: #fbfbf8;
+    background-image: url("squared-paper-texture.jpg");
+    background-size: cover;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     width: 20rem;
     height: 30rem;
@@ -23,10 +25,18 @@
 
 .shopping-date {
     align-self: center;
+    margin-bottom: 0;
+}
+
+.insufficient-data-warning {
+    margin-left: 0.6rem;
+    margin-bottom: 0;
+    color: red;
 }
 
 .buyer {
     margin-left: 0.6rem;
+    margin-top: 0;
 }
 
 .buyer-text-field {
@@ -34,7 +44,7 @@
     font-size: 1.3rem;
     border-width: 0;
     color: #a62c2b;
-    background-color: #fbfbf8;
+    background-color: transparent;
 }
 
 .shops {
@@ -75,7 +85,7 @@
 .product-name {
     width: 90%;
     border-width: 0;
-    background-color: #fbfbf8;
+    background-color: transparent;
 }
 
 .product-name:focus {
@@ -122,9 +132,13 @@
 .sum {
     border-width: 0;
     font-size: 1rem;
-    background-color: #fbfbf8;
+    background-color: transparent;
 }
 
 .sum:focus {
     outline: none;
+}
+
+.hidden {
+    display: none;
 }

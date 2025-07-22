@@ -19,4 +19,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long productId;
     private String name;
+
+    public Product(String name) {
+        this.name = name;
+    }
 }

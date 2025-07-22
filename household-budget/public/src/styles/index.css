@@ -2,11 +2,13 @@ html {
     font-size: 16px;
 }
 
-body {
-    /*background-color: #a62c2b;*/
-}
-
 @media (max-width: 480px) {
+    body {
+        background-image: url('cat-background.jpg');
+        background-repeat: repeat;
+        background-position: -200px -100px;
+    }
+
     .top-bar {
         position: absolute;
         top: 0;
@@ -38,9 +40,19 @@ body {
         border-radius: 1rem;
     }
 
+    .shopping-menu > .save-btn {
+        margin-left: 0.1rem;
+    }
+
     .shopping-menu > .close-btn {
         border-radius: 1rem;
         height: 1.5rem;
         width: 1.5rem;
+    }
+
+    .shopping-menu > .open-history-btn {
+        margin-top: 0.25rem;
+        width: 0.8rem;
+        padding-left: 0.5rem;
     }
 }

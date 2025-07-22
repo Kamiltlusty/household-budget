@@ -1,0 +1,23 @@
+html {
+    font-size: 16px;
+}
+
+body {
+
+}
+
+@media (max-width: 480px) {
+    body {
+        background-color: #bf9c70;
+    }
+
+    .history-section {
+        margin-left: 10%;
+        margin-top: 10%;
+        width: 80%;
+        height: 90vh;
+        border-radius: 0.25rem;
+        background-color: #dbc8b3;
+    }
+
+}

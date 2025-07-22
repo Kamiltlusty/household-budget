@@ -1,2 +1,10 @@
-package pl.kamil.householdbudgetapi.domain.dtos;public class StoreDTO {
+package pl.kamil.householdbudgetapi.domain.dtos;
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class StoreDTO {
+    private String name;
 }
