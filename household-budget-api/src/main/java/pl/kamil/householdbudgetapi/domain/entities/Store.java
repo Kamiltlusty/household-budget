@@ -1,9 +1,6 @@
 package pl.kamil.householdbudgetapi.domain.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @With
@@ -16,7 +13,9 @@ import lombok.*;
 public class Store {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long storeId;
+    private Long storeId;
+
+    @Column(unique = true)
     private String name;
 
     public Store(String name) {

@@ -1,0 +1,15 @@
+services:
+  postgres-test:
+    image: postgres:17.5
+    container_name: postgres-test
+    ports:
+      - "5436:5432"
+    environment:
+      POSTGRES_DB: hb_test
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - hb_test:/var/lib/postgresql/data
+
+volumes:
+  hb_test

@@ -42,6 +42,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-testcontainers'
 
     // others
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-docker-compose'

@@ -1,0 +1,16 @@
+services:
+  postgres-prod:
+    image: postgres:17.5
+    container_name: postgres-prod
+    ports:
+      - "5438:5432"
+    environment:
+      POSTGRES_DB: hb_prod
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - hb_prod:/var/lib/postgresql/data
+
+
+volumes:
+  hb_prod:

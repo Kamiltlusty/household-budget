@@ -1,18 +1,108 @@
 package pl.kamil.householdbudgetapi.application;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Profile;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import pl.kamil.householdbudgetapi.domain.entities.Form;
+import pl.kamil.householdbudgetapi.domain.entities.Store;
 import pl.kamil.householdbudgetapi.infrastructure.FormRepository;
+import pl.kamil.householdbudgetapi.infrastructure.StoreRepository;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
+import java.util.Random;
+import java.util.stream.IntStream;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class FormService {
     private final FormRepository formRepository;
+    private final StoreRepository storeRepository;
 
     public void save(Form form) {
+        Store store = form.getStore();
+        if (store == null) {
+            throw new IllegalArgumentException("Store cannot be null");
+        }
+
+        String storeName = store.getName();
+        if (storeName == null || storeName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Store name cannot be null or empty");
+        }
+
+        String normalizedStoreName = storeName.toLowerCase(Locale.ROOT).trim();
+
+        Optional<Store> existingStore =
+                storeRepository.findByName(normalizedStoreName);
+
+        Store managedStore;
+        if (existingStore.isPresent()) {
+            managedStore = existingStore.get();
+        } else {
+            store.setStoreId(null);
+            managedStore = storeRepository.save(store);
+        }
+
+        form.setStore(managedStore);
+
         formRepository.save(form);
+    }
+
+    public Page<Form> findFormsWithPaginationAndSorting(int pageNumber, int pageSize, String field) {
+        return formRepository.findAll(PageRequest.of(pageNumber, pageSize)
+                .withSort(Sort.by(Sort.Direction.DESC, field)));
+    }
+
+    private Store generateStore(Random rand) {
+        int nameNum = rand.nextInt(1, 8);
+        String storeName = switch (nameNum) {
+            case 1 -> "lidl";
+            case 2 -> "biedronka";
+            case 3 -> "żabka";
+            case 4 -> "auchan";
+            case 5 -> "carrefour";
+            case 6 -> "putka";
+            case 7 -> "dino";
+            default -> throw new IllegalStateException("Unexpected value: " + nameNum);
+        };
+        return new Store(storeName);
+    }
+
+//    @Profile("dev")
+//    @PostConstruct
+//    public void populateForms() {
+//        Random r = new Random();
+//        List<Form> forms = IntStream.rangeClosed(1, 100)
+//                .mapToObj(i -> new Form(
+//                        generateDate(r),
+//                        generateFormName(),
+//                        BigDecimal.valueOf(r.nextDouble()),
+//                        generateStore(r)
+//                ))
+//                .toList();
+//        forms.forEach(this::save);
+//    }
+
+    public LocalDate generateDate(Random rand) {
+        int year = 2000 + rand.nextInt(0, 26);
+        int month = rand.nextInt(1, 12);
+        int day = rand.nextInt(1, 28);
+        return LocalDate.of(year, month, day);
+    }
+
+    public String generateFormName() {
+        return LocalTime.now().getSecond() % 2 == 0 ? "Kamil" : "Weronika";
     }
 }

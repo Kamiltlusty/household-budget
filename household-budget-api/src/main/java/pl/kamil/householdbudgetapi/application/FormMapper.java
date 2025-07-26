@@ -2,6 +2,7 @@ package pl.kamil.householdbudgetapi.application;
 
 import org.springframework.stereotype.Component;
 import pl.kamil.householdbudgetapi.domain.dtos.FormDTO;
+import pl.kamil.householdbudgetapi.domain.dtos.HistoryDataDTO;
 import pl.kamil.householdbudgetapi.domain.entities.Form;
 import pl.kamil.householdbudgetapi.domain.entities.Product;
 import pl.kamil.householdbudgetapi.domain.entities.Store;
@@ -20,6 +21,14 @@ public class FormMapper {
                         .map(p -> new Product(p.getName()))
                         .collect(Collectors.toSet())))
                 .totalSum(formDTO.getTotalSum())
+                .build();
+    }
+
+    public HistoryDataDTO toHistoryDataDTO(Form form) {
+        return HistoryDataDTO.builder()
+                .date(form.getDate())
+                .buyerName(form.getBuyerName())
+                .totalSum(form.getTotalSum())
                 .build();
     }
 }

@@ -1,0 +1,15 @@
+services:
+  postgres-dev:
+    image: postgres:17.5
+    container_name: postgres-dev
+    ports:
+      - "5434:5432"
+    environment:
+      POSTGRES_DB: hb_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - hb_dev:/var/lib/postgresql/data
+
+volumes:
+  hb_dev:

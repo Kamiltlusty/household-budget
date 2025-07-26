@@ -19,13 +19,13 @@ import java.util.Set;
 public class Form {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long formId;
+    private Long formId;
     private LocalDate date;
     private String buyerName;
     private String receiptUrl;
     private BigDecimal totalSum;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "store_id")
     private Store store;
 
@@ -36,4 +36,18 @@ public class Form {
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
     private Set<Product> products = new HashSet<>();
+
+    public Form(LocalDate date, String buyerName, BigDecimal totalSum, Store store) {
+        this.date = date;
+        this.buyerName = buyerName;
+        this.totalSum = totalSum;
+        this.store = store;
+    }
+    public Form(LocalDate date, String buyerName, String receiptUrl, BigDecimal totalSum, Store store) {
+        this.date = date;
+        this.buyerName = buyerName;
+        this.receiptUrl = receiptUrl;
+        this.totalSum = totalSum;
+        this.store = store;
+    }
 }
