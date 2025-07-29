@@ -9,6 +9,7 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class HistoryDataDTO {
+    private Long formId;
     private LocalDate date;
     private String buyerName;
     private BigDecimal totalSum;

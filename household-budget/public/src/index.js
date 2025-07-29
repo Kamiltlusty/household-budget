@@ -3,7 +3,6 @@ import {createHTMLOpenButton, openForm} from "./buttons/formOpenButton.js";
 import {createHTMLSaveButton, saveFormData} from "./buttons/formSaveButton.js";
 import {createHTMLCloseButton, closeForm} from "./buttons/formCloseButton.js";
 import {createHtmlOpenHistoryButton, openHistoryPage} from "./buttons/historyOpenButton.js";
-import {loadHistoryData} from "./history.js";
 
 const header = document.createElement("header");
 header.className = "top-bar"
@@ -27,4 +26,4 @@ openForm(openBtn, createShoppingFormComponent());
 saveFormData(saveBtn);
 closeForm(closeBtn);
 openHistoryPage(openHistoryButton);
-// loadHistoryData(openHistoryButton);
+

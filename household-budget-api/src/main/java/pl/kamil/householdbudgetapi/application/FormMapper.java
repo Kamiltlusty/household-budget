@@ -26,6 +26,7 @@ public class FormMapper {
 
     public HistoryDataDTO toHistoryDataDTO(Form form) {
         return HistoryDataDTO.builder()
+                .formId(form.getFormId())
                 .date(form.getDate())
                 .buyerName(form.getBuyerName())
                 .totalSum(form.getTotalSum())

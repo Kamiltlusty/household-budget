@@ -1,19 +1,20 @@
-export function createHTMLShoppingHistoryBar() {
+export function createHTMLShoppingHistoryBar(formId, barDate, barName, barTotalSum) {
 
     const shoppingHistoryBar = document.createElement("div");
     shoppingHistoryBar.className = "shopping-history-bar";
+    shoppingHistoryBar.dataset.formId = formId;
 
     const date = document.createElement("span");
     date.className = "history-date";
-    date.innerText = "15.02.2025";
+    date.innerText = barDate;
 
     const name = document.createElement("span");
     name.className = "history-name";
-    name.innerText = "Kamil";
+    name.innerText = barName;
 
     const totalSum = document.createElement("span");
     totalSum.className = "history-sum";
-    totalSum.innerText = "15zl";
+    totalSum.innerText = barTotalSum;
 
     shoppingHistoryBar.addEventListener("click", () => {
         alert("kliknięto!")

@@ -1,24 +1,49 @@
 import {createHTMLShoppingHistoryBar} from "./components/shopping-history-bar.js";
 
-const link = document.createElement("link");
-link.rel = "stylesheet";
-link.href = "./styles/shopping-history-bar.css";
-document.head.appendChild(link);
-
-
 const historySection = document.createElement("section");
 historySection.className = "history-section";
 
 document.body.appendChild(historySection);
+loadHistoryData();
+loadMoreData();
 
+function loadMoreData() {
+    let lastScrollY = window.scrollY;
+    let page = 1;
+    let isLast = false;
 
+    const handleLoadDataOnScrollToBottom = async () => {
+        const currentScrollY = window.scrollY;
+        const scrolledTo = window.scrollY + window.innerHeight;
+        const isReachBottom = scrolledTo + 0.5 >= document.documentElement.scrollHeight;
 
-export function loadHistoryData(openHistoryButton) {
-    const handleLoadHistoryData = async () => {
+        if (isReachBottom && currentScrollY > lastScrollY && !isLast) {
+            const historyData = await fetchHistoryData(page);
+            isLast = historyData.last;
+            const arr = historyData.content
+            console.log(arr);
 
+            arr.forEach(({formId, date, buyerName, totalSum}) => {
+                historySection.appendChild(createHTMLShoppingHistoryBar(formId, date, buyerName, totalSum));
+            })
+            page++;
+        }
+        lastScrollY = currentScrollY;
     }
 
-    openHistoryButton.addEventListener("click", handleLoadHistoryData() );
+    document.addEventListener("scroll", handleLoadDataOnScrollToBottom)
+}
+
+function loadHistoryData() {
+    const handleLoadHistoryData = async () => {
+        const historyData = await fetchHistoryData();
+        const arr = historyData.content
+        arr.forEach(({formId, date, buyerName, totalSum}) => {
+            historySection.appendChild(createHTMLShoppingHistoryBar(formId, date, buyerName, totalSum));
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", handleLoadHistoryData);
 }
 
 async function fetchHistoryData(page = 0, size = 25, field = "date") {
@@ -34,9 +59,3 @@ async function fetchHistoryData(page = 0, size = 25, field = "date") {
         return null;
     }
 }
-
-
-
-
-
-

@@ -31,8 +31,7 @@ public class FormController {
         Page<Form> formsPage = formService
                 .findFormsWithPaginationAndSorting(page, size, field);
 
-        List<HistoryDataDTO> forms = formService
-                .findFormsWithPaginationAndSorting(page, size, field).stream()
+        List<HistoryDataDTO> forms = formsPage.stream()
                 .map(formMapper::toHistoryDataDTO)
                 .toList();
 
