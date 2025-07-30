@@ -17,16 +17,29 @@ import java.util.List;
         "http://localhost:8888"
 })
 @RestController
+@RequestMapping("/form")
 @RequiredArgsConstructor
 public class FormController {
     private final FormService formService;
     private final FormMapper formMapper;
 
+    @GetMapping(path = "/history-form/{id}")
+    ResponseEntity<FormDTO> fetchSelectedFormData(
+            @PathVariable(name = "id") Long formId
+    ) {
+        Form form = formService.getFormById(formId);
+        FormDTO formDTO = formMapper.toFormDTO(form);
+
+        return ResponseEntity
+                .ok()
+                .body(formDTO);
+    }
+
     @GetMapping(path = "/history-data")
     ResponseEntity<PagedResponse<HistoryDataDTO>> getHistoryData(
-        @RequestParam(defaultValue = "0") int page,
-        @RequestParam(defaultValue = "25") int size,
-        @RequestParam(defaultValue = "date") String field
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "25") int size,
+            @RequestParam(defaultValue = "date") String field
     ) {
         Page<Form> formsPage = formService
                 .findFormsWithPaginationAndSorting(page, size, field);
@@ -49,7 +62,7 @@ public class FormController {
                 .body(response);
     }
 
-    @PostMapping(path = "/form", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<String> save(
             @RequestPart("form") FormDTO formDto,
             @RequestPart(name = "receipt-img", required = false) MultipartFile receiptImg

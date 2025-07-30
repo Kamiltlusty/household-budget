@@ -1,5 +1,6 @@
 package pl.kamil.householdbudgetapi.domain.dtos;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Builder
 public class FormDTO {
     private LocalDate date;
     private String buyerName;

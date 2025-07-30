@@ -1,11 +1,7 @@
 package pl.kamil.householdbudgetapi.application;
 
-import jakarta.annotation.PostConstruct;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -15,14 +11,11 @@ import pl.kamil.householdbudgetapi.domain.entities.Store;
 import pl.kamil.householdbudgetapi.infrastructure.FormRepository;
 import pl.kamil.householdbudgetapi.infrastructure.StoreRepository;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.IntStream;
 
 @Service
 @Transactional
@@ -31,16 +24,31 @@ public class FormService {
     private final FormRepository formRepository;
     private final StoreRepository storeRepository;
 
+    public Form getFormById(Long formId) {
+        return formRepository.getReferenceById(formId);
+    }
+
+    public Page<Form> findFormsWithPaginationAndSorting(int pageNumber, int pageSize, String field) {
+        return formRepository.findAll(PageRequest.of(pageNumber, pageSize)
+                .withSort(Sort.by(Sort.Direction.DESC, field)));
+    }
+
     public void save(Form form) {
+        findOrCreate(form);
+
+
+
+        formRepository.save(form);
+    }
+
+    private void findOrCreate(Form form) {
         Store store = form.getStore();
-        if (store == null) {
+        if (store == null)
             throw new IllegalArgumentException("Store cannot be null");
-        }
 
         String storeName = store.getName();
-        if (storeName == null || storeName.trim().isEmpty()) {
+        if (storeName == null || storeName.trim().isEmpty())
             throw new IllegalArgumentException("Store name cannot be null or empty");
-        }
 
         String normalizedStoreName = storeName.toLowerCase(Locale.ROOT).trim();
 
@@ -56,13 +64,6 @@ public class FormService {
         }
 
         form.setStore(managedStore);
-
-        formRepository.save(form);
-    }
-
-    public Page<Form> findFormsWithPaginationAndSorting(int pageNumber, int pageSize, String field) {
-        return formRepository.findAll(PageRequest.of(pageNumber, pageSize)
-                .withSort(Sort.by(Sort.Direction.DESC, field)));
     }
 
     private Store generateStore(Random rand) {
@@ -105,4 +106,5 @@ public class FormService {
     public String generateFormName() {
         return LocalTime.now().getSecond() % 2 == 0 ? "Kamil" : "Weronika";
     }
+
 }
