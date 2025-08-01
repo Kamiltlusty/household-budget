@@ -1,5 +1,4 @@
 export function createHTMLShoppingHistoryBar(formId, barDate, barName, barTotalSum) {
-
     const shoppingHistoryBar = document.createElement("div");
     shoppingHistoryBar.className = "shopping-history-bar";
     shoppingHistoryBar.dataset.formId = formId;
@@ -16,12 +15,20 @@ export function createHTMLShoppingHistoryBar(formId, barDate, barName, barTotalS
     totalSum.className = "history-sum";
     totalSum.innerText = barTotalSum;
 
-    shoppingHistoryBar.addEventListener("click", () => {
-        alert("kliknięto!")
-    })
-
     shoppingHistoryBar.appendChild(date);
     shoppingHistoryBar.appendChild(name);
     shoppingHistoryBar.appendChild(totalSum);
+
+    openMainPage(shoppingHistoryBar, formId);
     return shoppingHistoryBar;
+}
+
+
+function openMainPage(shoppingHistoryBar, formId){
+    console.log("openMainPage" + formId);
+    const handleOpenMainPage = () => {
+        window.location.href = `../index.html?formId=${formId}`;
+    }
+
+    shoppingHistoryBar.addEventListener("click", handleOpenMainPage);
 }

@@ -9,10 +9,7 @@ import pl.kamil.householdbudgetapi.domain.entities.Form;
 import pl.kamil.householdbudgetapi.domain.entities.Product;
 import pl.kamil.householdbudgetapi.domain.entities.Store;
 
-import javax.swing.text.html.Option;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component

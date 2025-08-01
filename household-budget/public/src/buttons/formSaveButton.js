@@ -142,7 +142,7 @@ async function waitForCheckboxes(shoppingFormComponent, minCount = 1, timeout = 
  * @returns {Promise<void>}
  */
 async function save(fd) {
-    const url = "http://localhost:8080/form";
+    const url = "http://localhost:8080/form/save";
     try {
         const response = await fetch(url, {
             method: "POST",

@@ -1,11 +1,14 @@
 package pl.kamil.householdbudgetapi.application;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.Null;
 import lombok.AllArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import pl.kamil.householdbudgetapi.application.exceptions.NotFoundException;
 import pl.kamil.householdbudgetapi.domain.entities.Form;
 import pl.kamil.householdbudgetapi.domain.entities.Store;
 import pl.kamil.householdbudgetapi.infrastructure.FormRepository;
@@ -25,7 +28,10 @@ public class FormService {
     private final StoreRepository storeRepository;
 
     public Form getFormById(Long formId) {
-        return formRepository.getReferenceById(formId);
+        if (formId == null) throw new IllegalArgumentException("Form id cannot be null");
+
+        return formRepository.findById(formId)
+                .orElseThrow(() -> new NotFoundException("Form with ID: " + formId + " not found."));
     }
 
     public Page<Form> findFormsWithPaginationAndSorting(int pageNumber, int pageSize, String field) {

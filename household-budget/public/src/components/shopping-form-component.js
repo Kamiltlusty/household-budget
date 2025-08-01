@@ -1,4 +1,4 @@
-export function createShoppingFormComponent() {
+export function createShoppingFormComponent(formData) {
     const sDate = getCurrentDate();
 
     const shoppingFormComponent = document.createElement("section")
@@ -27,6 +27,14 @@ export function createShoppingFormComponent() {
         const shops = stores.map(store => store.name);
         printShopsWithCheckboxes(shops, shopsSection);
         ensureOneCheckboxIsChecked(shoppingFormComponent);
+
+        if (formData !== undefined) {
+            console.log("fd: " + Object.keys(formData));
+            setDate(shoppingFormComponent, formData['date']);
+            setBuyerName(shoppingFormComponent, formData['buyerName']);
+            setStore(shoppingFormComponent, formData['store']);
+            setTotalSum(shoppingFormComponent, formData['totalSum']);
+        }
     }).catch(error => console.log(error.message))
 
     const ul = shoppingFormComponent.querySelector(".list");
@@ -50,6 +58,35 @@ export function createShoppingFormComponent() {
     fileInput.addEventListener("change", handleCreatePopup);
 
     return shoppingFormComponent;
+}
+
+async function fetchStoresAndDisplay() {
+
+}
+
+function setTotalSum(shoppingFormComponent, totalSum) {
+    const totalSumField = shoppingFormComponent.querySelector(".sum");
+    totalSumField.value = totalSum;
+}
+
+function setStore(shoppingFormComponent, store) {
+    const shopSpans = shoppingFormComponent.querySelectorAll(".shop-span");
+    const checkboxes = shoppingFormComponent.querySelectorAll(".shop-checkbox");
+    console.log("store inner text: " + store.name);
+    console.log(shopSpans.length);
+    const idx = Array.from(shopSpans).findIndex(element => element.innerText === store.name)
+    checkboxes[idx].checked = true;
+}
+
+function setBuyerName(shoppingFormComponent, buyerName) {
+    const buyerTextField = shoppingFormComponent.querySelector(".buyer-text-field");
+    buyerTextField.value = buyerName;
+}
+
+function setDate(shoppingFormComponent, initialDate) {
+    let dateField = shoppingFormComponent.querySelector(".shopping-date");
+    const date = new Date(initialDate);
+    dateField.innerText = date.getDate() + " " + getPolishMonth(date) + " " + date.getFullYear();
 }
 
 function createPopupWithReceipt(shoppingFormComponent, fileInput) {
@@ -136,11 +173,11 @@ function removeEmptyInputs(shoppingFormComponent) {
 function printShopsWithCheckboxes(shops, shopsSection) {
     for (let i = 0; i < shops.length; i++) {
         const cb = document.createElement("input");
-        cb.className = "shop-checkbox"
+        cb.className = "shop-checkbox";
         cb.value = i;
         cb.type = "checkbox";
         const text = document.createElement("span");
-        text.className = "shop-span"
+        text.className = "shop-span";
         text.innerText = shops[i];
         shopsSection.appendChild(cb);
         shopsSection.appendChild(text);

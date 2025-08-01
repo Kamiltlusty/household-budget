@@ -25,6 +25,7 @@ function loadMoreData() {
 
             arr.forEach(({formId, date, buyerName, totalSum}) => {
                 historySection.appendChild(createHTMLShoppingHistoryBar(formId, date, buyerName, totalSum));
+                console.log("history: " + formId);
             })
             page++;
         }
@@ -47,7 +48,7 @@ function loadHistoryData() {
 }
 
 async function fetchHistoryData(page = 0, size = 25, field = "date") {
-    const url = `http://localhost:8080/history-data?page=${page}&size=${size}&field=${field}`;
+    const url = `http://localhost:8080/form/history-data?page=${page}&size=${size}&field=${field}`;
     try {
         const response = await fetch(url, {
             method: "GET",
